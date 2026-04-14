@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | FARMY</title>
+
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Custom CSS -->
+  <link href="css/styles.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      background: rgba(46, 125, 50, 0.95);
+      backdrop-filter: blur(10px);
+    }
+
+    .login-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      width: 420px;
+      padding: 40px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .title {
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .switch-link {
+      color: var(--primary);
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .switch-link:hover {
+      text-decoration: underline;
+    }
+
+    .error-message {
+      background: #ffebee;
+      color: #c62828;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 14px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark px-4">
+  <span class="navbar-brand">🌾 FARMY</span>
+  <a href="index.html" class="btn btn-light btn-sm">Home</a>
+</nav>
+
+<!-- Login/Register Container -->
+<div class="login-container">
+  <div class="login-card">
+
+    <h4 class="title">Welcome to FARMY</h4>
+    <p class="subtitle">Farm Biosecurity Management Portal</p>
+
+    <!-- Error Message -->
+    <div id="errorMessage" class="error-message"></div>
+
+    <!-- LOGIN FORM -->
+    <div id="loginForm">
+      <input type="text" id="loginUsername" class="form-control my-2" placeholder="Username" required>
+      <input type="password" id="loginPassword" class="form-control my-2" placeholder="Password" required>
+
+      <button class="btn btn-success w-100 mt-3" onclick="handleLogin()">
+        Login
+      </button>
+
+      <p class="text-center mt-3 mb-0">
+        Not registered?
+        <span class="switch-link" onclick="showRegister()">Register</span>
+      </p>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="registerForm" style="display:none;">
+      <input type="text" id="registerUsername" class="form-control my-2" placeholder="Username" required>
+      <input type="password" id="registerPassword" class="form-control my-2" placeholder="New Password (min 6 chars)" required>
+      <input type="password" id="registerPasswordConfirm" class="form-control my-2" placeholder="Confirm Password" required>
+
+      <button class="btn btn-success w-100 mt-3" onclick="handleRegister()">
+        Register
+      </button>
+
+      <p class="text-center mt-3 mb-0">
+        Already registered?
+        <span class="switch-link" onclick="showLogin()">Login</span>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<!-- API Utilities -->
+<script src="js/api.js"></script>
+
+<script>
+  function showRegister() {
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("registerForm").style.display = "block";
+    hideError();
+  }
+
+  function showLogin() {
+    document.getElementById("registerForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+    hideError();
+  }
+
+  function showError(message) {
+    const errorEl = document.getElementById('errorMessage');
+    errorEl.textContent = message;
+    errorEl.style.display = 'block';
+  }
+
+  function hideError() {
+    document.getElementById('errorMessage').style.display = 'none';
+  }
+
+  async function handleLogin() {
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value;
+
+    if (!username || !password) {
+      showError('Please enter both username and password');
+      return;
+    }
+
+    try {
+      const response = await AuthAPI.login(username, password);
+      
+      if (response.success) {
+        showToast('Login successful! Redirecting...', 'success');
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 1000);
+      } else {
+        showError(response.message || 'Login failed');
+      }
+    } catch (error) {
+      showError('Error connecting to server. Please try again.');
+      console.error('Login error:', error);
+    }
+  }
+
+  async function handleRegister() {
+    const username = document.getElementById('registerUsername').value.trim();
+    const password = document.getElementById('registerPassword').value;
+    const confirmPassword = document.getElementById('registerPasswordConfirm').value;
+
+    if (!username || !password || !confirmPassword) {
+      showError('Please fill in all fields');
+      return;
+    }
+
+    if (password.length < 6) {
+      showError('Password must be at least 6 characters');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      showError('Passwords do not match');
+      return;
+    }
+
+    try {
+      const response = await AuthAPI.register(username, password);
+      
+      if (response.success) {
+        showToast(response.message, 'success');
+        setTimeout(() => {
+          showLogin();
+          document.getElementById('loginUsername').value = username;
+        }, 1500);
+      } else {
+        showError(response.message || 'Registration failed');
+      }
+    } catch (error) {
+      showError('Error connecting to server. Please try again.');
+      console.error('Registration error:', error);
+    }
+  }
+
+  // Allow Enter key to submit
+  document.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      const loginVisible = document.getElementById('loginForm').style.display !== 'none';
+      if (loginVisible) {
+        handleLogin();
+      } else {
+        handleRegister();
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
+

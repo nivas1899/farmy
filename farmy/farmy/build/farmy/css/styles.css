@@ -1,0 +1,391 @@
+/* =====================================================
+   FARMY - Centralized CSS Design System
+   Professional Farm Management Interface
+   ===================================================== */
+
+/* ==================== CSS VARIABLES ==================== */
+:root {
+  /* Primary Colors */
+  --primary: #2e7d32;           /* Farm Green */
+  --primary-light: #4caf50;
+  --primary-dark: #1b5e20;
+  
+  /* Secondary Colors */
+  --secondary: #558b2f;
+  --accent: #ff9800;
+  
+  /* Neutral Colors */
+  --bg: #f4f6f8;
+  --bg-secondary: #ffffff;
+  --text-primary: #212121;
+  --text-secondary: #666666;
+  --text-light: #999999;
+  
+  /* Status Colors */
+  --status-normal: #2e7d32;
+  --status-sick: #d32f2f;
+  --status-isolated: #f57c00;
+  --status-dead: #616161;
+  --status-pending: #ff9800;
+  --status-done: #2e7d32;
+  
+  /* UI Elements */
+  --border-color: #e0e0e0;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+  
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  
+  /* Typography */
+  --font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 24px;
+  --font-size-xxl: 32px;
+}
+
+/* ==================== GLOBAL STYLES ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  background: var(--bg);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==================== NAVBAR ==================== */
+.navbar {
+  background: var(--primary);
+  color: white;
+  padding: var(--spacing-md) var(--spacing-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-md);
+}
+
+.navbar-brand {
+  font-size: var(--font-size-xl);
+  font-weight: bold;
+}
+
+/* ==================== CARDS ==================== */
+.card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.stat-card {
+  border-left: 6px solid var(--primary);
+  padding: var(--spacing-md);
+}
+
+.stat-card h6 {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-card h3 {
+  color: var(--text-primary);
+  font-size: var(--font-size-xxl);
+  font-weight: bold;
+}
+
+.action-card {
+  cursor: pointer;
+  text-align: center;
+  padding: var(--spacing-xl);
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.action-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+  background: var(--primary);
+  color: white;
+}
+
+/* ==================== BUTTONS ==================== */
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-success {
+  background: var(--primary);
+  color: white;
+  border: none;
+}
+
+.btn-success:hover {
+  background: var(--primary-dark);
+}
+
+.btn-danger {
+  background: var(--status-sick);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #b71c1c;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: var(--font-size-sm);
+}
+
+.btn-lg {
+  padding: 14px 28px;
+  font-size: var(--font-size-md);
+}
+
+/* ==================== FORMS ==================== */
+.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* ==================== TABLES ==================== */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.table thead {
+  background: #e8f5e9;
+}
+
+.table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.5px;
+}
+
+.table td {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.table tbody tr:hover {
+  background: #f5f5f5;
+}
+
+.table-bordered {
+  border: 1px solid var(--border-color);
+}
+
+/* ==================== STATUS BADGES ==================== */
+.status-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: white;
+}
+
+.status-normal {
+  background: var(--status-normal);
+}
+
+.status-sick {
+  background: var(--status-sick);
+}
+
+.status-isolated {
+  background: var(--status-isolated);
+}
+
+.status-dead {
+  background: var(--status-dead);
+}
+
+.status-pending {
+  background: var(--status-pending);
+}
+
+.status-done {
+  background: var(--status-done);
+}
+
+/* ==================== ALERTS ==================== */
+.alert-box {
+  background: #fff3cd;
+  border-left: 6px solid var(--accent);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  color: #856404;
+  font-weight: 500;
+}
+
+/* ==================== UTILITIES ==================== */
+.page-title {
+  color: var(--primary);
+  font-weight: bold;
+  margin-bottom: var(--spacing-md);
+}
+
+.section-title {
+  color: var(--primary);
+  font-weight: bold;
+  margin-bottom: var(--spacing-md);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-1 { margin-top: var(--spacing-xs); }
+.mt-2 { margin-top: var(--spacing-sm); }
+.mt-3 { margin-top: var(--spacing-md); }
+.mt-4 { margin-top: var(--spacing-lg); }
+
+.mb-1 { margin-bottom: var(--spacing-xs); }
+.mb-2 { margin-bottom: var(--spacing-sm); }
+.mb-3 { margin-bottom: var(--spacing-md); }
+.mb-4 { margin-bottom: var(--spacing-lg); }
+
+.w-100 { width: 100%; }
+
+/* ==================== CHART CONTAINERS ==================== */
+.chart-container {
+  background: white;
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-top: var(--spacing-lg);
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 300px;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .stat-card h3 {
+    font-size: var(--font-size-xl);
+  }
+  
+  .action-card {
+    padding: var(--spacing-md);
+  }
+  
+  .table {
+    font-size: var(--font-size-sm);
+  }
+  
+  .table th,
+  .table td {
+    padding: 8px 10px;
+  }
+}
+
+/* ==================== LOADING STATES ==================== */
+.loading {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--text-secondary);
+}
+
+.loading::after {
+  content: '...';
+  animation: dots 1.5s infinite;
+}
+
+@keyframes dots {
+  0%, 20% { content: '.'; }
+  40% { content: '..'; }
+  60%, 100% { content: '...'; }
+}
+
+/* ==================== TRANSITIONS ==================== */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

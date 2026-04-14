@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Visitor Entry | FARMY</title>
+
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- ================= VISITOR PAGE THEME ================= -->
+  <style>
+    :root{
+      --primary:#2e7d32;
+      --light:#e8f5e9;
+      --bg:#f4f6f8;
+      --text:#333;
+    }
+
+    body{
+      background:var(--bg);
+      font-family:Arial, sans-serif;
+    }
+
+    .navbar{
+      background:var(--primary);
+    }
+
+    .page-title{
+      color:var(--primary);
+      margin-bottom:20px;
+    }
+
+    .card{
+      border-radius:12px;
+    }
+
+    .btn-success{
+      background:var(--primary);
+      border:none;
+    }
+
+    .table th{
+      background:var(--light);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-dark px-4">
+  <span class="navbar-brand">Visitor Register</span>
+  <a href="../dashboard.html" class="btn btn-light btn-sm">Back to Dashboard</a>
+</nav>
+
+<!-- ================= VISITOR FORM ================= -->
+<div class="container py-4">
+
+  <div class="card p-4 mb-4">
+    <h4 class="page-title">Add Visitor Entry</h4>
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Visitor Name</label>
+        <input type="text" class="form-control" placeholder="Enter visitor name">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Role</label>
+        <select class="form-control" id="roleSelect" onchange="toggleOtherRole()">
+          <option>Doctor</option>
+          <option>Feed Supplier</option>
+          <option>Egg Buyer</option>
+          <option>Farm Worker</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="col-md-6" id="otherRoleBox" style="display:none;">
+        <label class="form-label">Specify Role</label>
+        <input type="text" class="form-control" placeholder="Enter role">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Sanitization</label>
+        <div class="form-check mt-2">
+          <input class="form-check-input" type="checkbox" checked disabled>
+          <label class="form-check-label">Sanitized before entry</label>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-success mt-4" onclick="addVisitor()">Save Visitor</button>
+  </div>
+
+  <!-- ================= VISITOR LIST ================= -->
+  <div class="card p-4">
+    <h4 class="page-title">Visitor Log</h4>
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Date & Time</th>
+          <th>Sanitized</th>
+        </tr>
+      </thead>
+      <tbody id="visitorTable">
+        <tr>
+          <td colspan="4" class="text-center text-muted">No records yet</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+  function toggleOtherRole() {
+    const role = document.getElementById("roleSelect").value;
+    document.getElementById("otherRoleBox").style.display = (role === "Other") ? "block" : "none";
+  }
+
+  function addVisitor() {
+    const table = document.getElementById("visitorTable");
+    const now = new Date().toLocaleString();
+
+    if (table.rows.length === 1 && table.rows[0].cells.length === 1) {
+      table.innerHTML = "";
+    }
+
+    const row = table.insertRow();
+    row.insertCell(0).innerText = "Demo Visitor";
+    row.insertCell(1).innerText = document.getElementById("roleSelect").value;
+    row.insertCell(2).innerText = now;
+    row.insertCell(3).innerText = "Yes";
+  }
+</script>
+
+</body>
+</html>

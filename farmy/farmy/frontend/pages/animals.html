@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Animal Management | FARMY</title>
+
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root{--primary:#2e7d32;--light:#e8f5e9;--bg:#f4f6f8;}
+    body{background:var(--bg);font-family:Arial,sans-serif;}
+    .navbar{background:var(--primary);} 
+    .page-title{color:var(--primary);} 
+    .card{border-radius:12px;} 
+    .btn-success{background:var(--primary);border:none;} 
+    .table th{background:var(--light);} 
+    .status-badge{padding:5px 10px;border-radius:12px;font-size:12px;color:white;}
+    .status-normal{background:#2e7d32;} 
+    .status-sick{background:#d32f2f;} 
+    .status-isolated{background:#f57c00;} 
+    .status-dead{background:#616161;}
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark px-4">
+  <span class="navbar-brand">Animal Management</span>
+  <a href="../dashboard.html" class="btn btn-light btn-sm">Back to Dashboard</a>
+</nav>
+
+<div class="container py-4">
+
+  <div class="card p-4 mb-4">
+    <h4 class="page-title">Add Animals to Batch</h4>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label">Batch Name</label>
+        <input id="batchName" type="text" class="form-control" placeholder="A, Grower-1, Shed-2">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Animal Type</label>
+        <select class="form-control"><option>Pig</option><option>Poultry</option></select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Add Count</label>
+        <input id="animalCount" type="number" min="1" class="form-control" placeholder="Positive number only">
+      </div>
+    </div>
+    <button id="addBtn" class="btn btn-success mt-4">Add Animals</button>
+  </div>
+
+  <div id="batchTables"></div>
+
+</div>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+  // ---------- State ----------
+  const batchCounters = {};
+
+  // ---------- Utilities ----------
+  function safeId(name){
+    return name.replace(/[^a-zA-Z0-9]/g,'_');
+  }
+
+  // ---------- Core Logic ----------
+  function addAnimals(){
+    const batch = document.getElementById('batchName').value.trim();
+    const count = parseInt(document.getElementById('animalCount').value, 10);
+
+    if(!batch){
+      alert('Enter batch name');
+      return;
+    }
+    if(isNaN(count) || count <= 0){
+      alert('Enter valid positive count');
+      return;
+    }
+
+    const safeBatch = safeId(batch);
+    if(!batchCounters[safeBatch]) batchCounters[safeBatch] = 0;
+
+    let body = document.getElementById('tableBody_' + safeBatch);
+    if(!body){
+      createBatchTable(batch, safeBatch);
+      body = document.getElementById('tableBody_' + safeBatch);
+    }
+
+    for(let i = 0; i < count; i++){
+      batchCounters[safeBatch]++;
+      const r = body.insertRow();
+      r.insertCell(0).innerText = `${batch}-${String(batchCounters[safeBatch]).padStart(2,'0')}`;
+      r.insertCell(1).innerHTML = '<span class="status-badge status-normal">NORMAL</span>';
+      r.insertCell(2).innerHTML = '<select class="form-control status-select"><option>NORMAL</option><option>SICK</option><option>ISOLATED</option><option>DEAD</option></select>';
+      r.insertCell(3).innerHTML = '<button class="btn btn-danger btn-sm delete-btn">Delete</button>';
+    }
+
+    document.getElementById('animalCount').value = '';
+  }
+
+  function createBatchTable(batch, safeBatch){
+    const c = document.getElementById('batchTables');
+    const card = document.createElement('div');
+    card.className = 'card p-4 mb-4';
+    card.innerHTML = `
+      <h4 class="page-title">Batch: ${batch}</h4>
+      <table class="table table-bordered">
+        <thead>
+          <tr><th>Animal ID</th><th>Status</th><th>Update Status</th><th>Action</th></tr>
+        </thead>
+        <tbody id="tableBody_${safeBatch}"></tbody>
+      </table>`;
+    c.appendChild(card);
+  }
+
+  // ---------- Event Bindings ----------
+  document.addEventListener('DOMContentLoaded', function(){
+    document.getElementById('addBtn').addEventListener('click', addAnimals);
+  });
+
+  document.addEventListener('change', function(e){
+    if(e.target.classList.contains('status-select')){
+      const cell = e.target.parentElement.previousElementSibling;
+      const map = {NORMAL:'status-normal', SICK:'status-sick', ISOLATED:'status-isolated', DEAD:'status-dead'};
+      cell.innerHTML = `<span class="status-badge ${map[e.target.value]}">${e.target.value}</span>`;
+    }
+  });
+
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.delete-btn');
+    if(btn){
+      if(confirm('Remove this animal record?')){
+        btn.closest('tr').remove();
+        alert('Animal record deleted successfully');
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

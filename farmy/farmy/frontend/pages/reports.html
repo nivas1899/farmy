@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reports | FARMY</title>
+
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root{--primary:#2e7d32;--light:#e8f5e9;--bg:#f4f6f8;}
+    body{background:var(--bg);font-family:Arial,sans-serif;}
+    .navbar{background:var(--primary);} 
+    .page-title{color:var(--primary);} 
+    .card{border-radius:12px;} 
+    .summary-card{border-left:6px solid var(--primary);} 
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark px-4">
+  <span class="navbar-brand">Farm Reports</span>
+  <a href="../dashboard.html" class="btn btn-light btn-sm">Back to Dashboard</a>
+</nav>
+
+<div class="container py-4">
+
+  <!-- SUMMARY CARDS -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <div class="card summary-card p-3">
+        <h6>Total Animals</h6>
+        <h3 id="totalAnimals">120</h3>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card summary-card p-3">
+        <h6>Healthy</h6>
+        <h3 id="healthyAnimals">102</h3>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card summary-card p-3">
+        <h6>Sick</h6>
+        <h3 id="sickAnimals">8</h3>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card summary-card p-3">
+        <h6>Isolated</h6>
+        <h3 id="isolatedAnimals">6</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- BATCH WISE REPORT -->
+  <div class="card p-4 mb-4">
+    <h4 class="page-title">Batch-wise Animal Report</h4>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Batch</th>
+          <th>Total</th>
+          <th>Healthy</th>
+          <th>Sick</th>
+          <th>Isolated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>A</td><td>50</td><td>45</td><td>3</td><td>2</td></tr>
+        <tr><td>B</td><td>30</td><td>28</td><td>1</td><td>1</td></tr>
+        <tr><td>Grower-1</td><td>40</td><td>29</td><td>4</td><td>7</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- VACCINATION REPORT -->
+  <div class="card p-4 mb-4">
+    <h4 class="page-title">Vaccination Status</h4>
+    <div class="row text-center">
+      <div class="col-md-4"><h5>Total Schedules</h5><p>12</p></div>
+      <div class="col-md-4"><h5>Completed</h5><p>7</p></div>
+      <div class="col-md-4"><h5>Pending</h5><p>5</p></div>
+    </div>
+  </div>
+
+  <!-- VISITOR REPORT -->
+  <div class="card p-4 mb-4">
+    <h4 class="page-title">Visitor Biosecurity Report</h4>
+    <table class="table table-bordered">
+      <thead>
+        <tr><th>Role</th><th>Count</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Doctor</td><td>5</td></tr>
+        <tr><td>Worker</td><td>20</td></tr>
+        <tr><td>Buyer</td><td>11</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- EXPORT -->
+  <div class="text-end">
+    <button class="btn btn-secondary" onclick="window.print()">Print Report</button>
+  </div>
+
+</div>
+
+</body>
+</html>
